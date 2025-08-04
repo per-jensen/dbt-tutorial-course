@@ -12,6 +12,11 @@ sources:
       #   loaded_at_field: created_at
       #   config:
       #     event_time: created_at
+      - name: events
+        freshness:
+          warn_after: {count: 12, period: hour}
+          error_after: {count: 1, period: minute}
+        loaded_at_field: created_at
       - name: inventory_items
       - name: order_items
       - name: orders
