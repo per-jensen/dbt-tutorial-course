@@ -36,3 +36,6 @@ models:
       relation: true
       columns: true
 
+tests:
+  lessons:
+    +severity: warn
