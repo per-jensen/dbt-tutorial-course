@@ -1,8 +1,21 @@
 version: 2
 
+groups:
+  - name: sales
+    owner:
+      email: sales@my-company.com
+
+  # Optional, this is just to illustrate
+  - name: marketing
+    owner:
+      email: marketing@my-company.com
+
 models:
   - name: orders
     description: "Table of order level information"
+    config:
+      group: sales
+    access: private
     columns:
 
     # Columns from stg_ecommerce__orders
@@ -64,6 +77,14 @@ models:
 
       - name: total_discount
         description: "Sum of (product_retail_price - item_sale_price) for the whole order"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+    # Column from int_ecommerce__first_order_created
+      - name: days_since_first_order
+        description: "How many days there were between a user's first order and this one"
         tests:
           - not_null
           - dbt_expectations.expect_column_values_to_be_between:
